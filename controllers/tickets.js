@@ -5,7 +5,7 @@ const Ticket = require('../models/ticket');
 const addOrder = async (req = request, res = response) => {
   const { order, creator, totalPrice } = req.body;
   try {
-    const ticket = new Ticket({ order, creator, totalPrice });
+    const ticket = new Ticket({ order, creator });
 
     await ticket.save();
 
@@ -14,7 +14,7 @@ const addOrder = async (req = request, res = response) => {
     });
   } catch (error) {
     return res.status(500).json({
-      msg: 'Algo ha salido mal...',
+      msg: 'Algo salio mal...',
     });
   }
 };
