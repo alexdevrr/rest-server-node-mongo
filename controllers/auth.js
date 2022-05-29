@@ -12,7 +12,7 @@ const login = async (req = request, res = response) => {
     const usuario = await Usuario.findOne({ email });
     if (!usuario) {
       return res.status(400).json({
-        msg: 'Usuario / Password son incorrectos - correo',
+        msg: 'Email no existe',
       });
     }
 
@@ -28,7 +28,7 @@ const login = async (req = request, res = response) => {
 
     if (!validPassword) {
       return res.status(400).json({
-        msg: 'Usuario / Password son incorrectos - password',
+        msg: 'Usuario o Password son incorrectos',
       });
     }
 
@@ -40,7 +40,7 @@ const login = async (req = request, res = response) => {
       token,
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     // 500: internal server error
     return res.status(500).json({
       msg: 'Hable con el administrador de la DB',
