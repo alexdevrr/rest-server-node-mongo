@@ -5,7 +5,7 @@ const Ticket = require('../models/ticket');
 const addOrder = async (req = request, res = response) => {
   const { order, creator, totalPrice } = req.body;
   try {
-    const ticket = new Ticket({ order, creator });
+    const ticket = new Ticket({ order, creator, totalPrice });
 
     await ticket.save();
 
