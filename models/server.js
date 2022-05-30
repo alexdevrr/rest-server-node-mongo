@@ -1,8 +1,35 @@
 const express = require('express');
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
 
 const { connectDatabase } = require('../databases/config');
 
 const cors = require('cors');
+const definition = {
+  swaggerDefiniton: {
+    info: {
+      title: 'Food API',
+      description: 'Customer API information',
+      version: '0.1.0',
+      contact: {
+        name: 'Amazing Developer',
+      },
+      servers: [
+        { url: 'https://rest-food-app.herokuapp.com/' },
+        { url: 'http://localhost:5000/' },
+      ],
+      // "basePath": "/api",
+    },
+  },
+};
+
+const options = {
+  definition,
+  // ['.routes/*.js']
+  apis: ['./routes/*.js'],
+};
+
+const specs = swaggerJsDoc(options);
 
 class Server {
   constructor() {
@@ -31,6 +58,11 @@ class Server {
     this.app.use(this.usuariosPath, require('../routes/usuarios'));
     this.app.use(this.authPath, require('../routes/auth'));
     this.app.use(this.ticketPath, require('../routes/ticket'));
+    this.app.use(
+      '/api-docs',
+      swaggerUi.serve,
+      swaggerUi.setup(specs, { explorer: true })
+    );
   }
 
   listen() {

@@ -23,9 +23,47 @@ const { validarJWT } = require('../middlewares/validar-jwt');
  * permite no ejecutar la ruta, o no llegar a ella
  * */
 
+/**
+ * @swagger
+ * tags:
+ *  name: Usuarios
+ *  description: Endpoints para loguearnos con nuestra cuenta, dar de alta a usuarios, validar roles, etc.
+ */
+
+/**
+ * @swagger
+ * paths:
+ *  /usuarios/:
+ *   get:
+ *      summary: Obtiene los datos de todos los usuarios que están guardados en la base de datos
+ *      tags: [Usuarios]
+ *      responses:
+ *          '200':
+ *            description: OK
+ *            examples:
+ *              application/json: {"total": 6, "usuarios": ["estado": true, "google": false, "nombre": "Alex", "email": "alexadmin@gmail.com", "rol": "ADMIN_ROLE", "uid": "62903bdad779dd9f8c0d05d3"]}
+ *
+ *
+ */
+
 const router = Router();
 
 router.get('/', usuariosGet);
+/**
+ * @swagger
+ * paths:
+ *  /usuarios/:
+ *   post:
+ *      summary: Endpoint para dar de alta a usuarios
+ *      tags: [Usuarios]
+ *      responses:
+ *          '200':
+ *            description: Ok
+ *            examples:
+ *              application/json: {"usuario": ["estado": true, "google": false, "nombre": "Alex", "email": "alexadmin@gmail.com", "rol": "ADMIN_ROLE", "uid": "62903bdad779dd9f8c0d05d3"]}
+ *
+ *
+ */
 router.post(
   '/',
   [
@@ -45,6 +83,19 @@ router.post(
   ],
   usuariosPost
 );
+/**
+ * @swagger
+ * paths:
+ *  /usuarios/{id}:
+ *   put:
+ *      summary: Endpoint para modificar a un usuario en específico
+ *      tags: [Usuarios]
+ *      parameters:
+ *       - in: id
+ *         description: Numeric ID of the user to put
+ *
+ *
+ */
 router.put(
   '/:id',
   [
@@ -56,7 +107,38 @@ router.put(
   ],
   usuariosPut
 );
+
 router.patch('/', usuariosPatch);
+
+/**
+ * @swagger
+ * paths:
+ *  /usuarios/{id}:
+ *   delete:
+ *      summary: Endpoint para hacer un borrado lógico de un usuario
+ *      tags: [Usuarios]
+ *      parameters:
+ *       - in: id
+ *         description: Numeric ID of the user to delete
+ *      responses:
+ *          '200':
+ *            description: Ok
+ *            examples:
+ *              application/json: {"usuario": ["estado": true, "google": false, "nombre": "Alex", "email": "alexadmin@gmail.com", "rol": "ADMIN_ROLE", "uid": "62903bdad779dd9f8c0d05d3"]}
+ *          '401':
+ *            description: Unaunthorized
+ *            examples:
+ *              application/json: {"msg": "No se ha mandando el token en la petición"}
+ *          '400':
+ *            description: Bad Request
+ *            examples:
+ *              application/json: {"errors": [ "value": "62942d3b7ee19000168e2390",
+ *              "msg": "El ID 62942d3b7ee19000168e2390 no existe en la DB",
+ *              "param": "id",
+ *              "location": "params"]}
+ *
+ *
+ */
 router.delete(
   '/:id',
   [
